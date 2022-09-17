@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using Web.API.Models;
 
 namespace Web.API.Controllers
@@ -15,7 +14,6 @@ namespace Web.API.Controllers
 
             new SuperHero{ Id = 2, Name = "Batman", FirstName = "Bruce", LastName = "Wayne", Place = "Gotham City"}
         };
-
 
         /// <summary>
         /// Retuns all super heroes a
@@ -34,13 +32,26 @@ namespace Web.API.Controllers
             return Ok(_herous);
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(IEnumerable<SuperHero>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get(int id)
+        {
+            var hero = _herous.Find(x => x.Id == id);
+
+            if (hero is null) return BadRequest();
+
+            return Ok(hero);
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post(SuperHero hero)
         {
             _herous.Add(hero);
-            return Created($"/{hero.Id} info", hero);
+            return Created($"/{hero.Id}info", hero);
         }
     }
 }
