@@ -32,6 +32,14 @@ namespace Web.API.Controllers
             return Ok(_herous);
         }
 
+        /// <summary>
+        /// Get specific super heroes
+        /// </summary>
+        /// <returns>
+        /// <response code="200">Successful operation</response>
+        /// <response code="404">Anomaly not found</response>
+        /// <response code="500">Server side found a error</response>
+        /// </returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(IEnumerable<SuperHero>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -45,6 +53,13 @@ namespace Web.API.Controllers
             return Ok(hero);
         }
 
+        /// <summary>
+        /// Create a super hero
+        /// </summary>
+        /// <returns>
+        /// <response code="201">Include successfully</response>        
+        /// <response code="500">Server side found a error</response>
+        /// </returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
