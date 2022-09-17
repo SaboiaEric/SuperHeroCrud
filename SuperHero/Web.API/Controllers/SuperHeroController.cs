@@ -25,7 +25,8 @@ namespace Web.API.Controllers
             var heroes = new List<SuperHero>
 
             {
-                new SuperHero{ Id = 1, Name = "Spider Man", FirstName = "Peter", LastName = "Parker", Place = "New York City"}
+                new SuperHero{ Id = 1, Name = "Spider Man", FirstName = "Peter", LastName = "Parker", Place = "New York City"},
+                new SuperHero{ Id = 2, Name = "Batman", FirstName = "Bruce", LastName = "Wayne", Place = "Gotham City"}
             };
 
             return Ok(heroes);
