@@ -8,12 +8,12 @@ namespace Web.API.Controllers
     [Produces("application/json")]
     public class SuperHeroController : ControllerBase
     {
-        private static List<SuperHero> _herous = new List<SuperHero>
-        {
-            new SuperHero{ Id = 1, Name = "Spider Man", FirstName = "Peter", LastName = "Parker", Place = "New York City"},
+        private readonly DataContext _context;
 
-            new SuperHero{ Id = 2, Name = "Batman", FirstName = "Bruce", LastName = "Wayne", Place = "Gotham City"}
-        };
+        public SuperHeroController(DataContext context)
+        {
+            _context = context;
+        }
 
         /// <summary>
         /// Retuns all super heroes a
@@ -29,7 +29,7 @@ namespace Web.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
-            return Ok(_herous);
+            return Ok(await _context.SuperHeroes.ToListAsync());
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Web.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(int id)
         {
-            var hero = _herous.Find(x => x.Id == id);
+            var hero = await _context.SuperHeroes.FindAsync(id);
 
             if (hero is null) return BadRequest();
 
@@ -57,16 +57,19 @@ namespace Web.API.Controllers
         /// Create a super hero
         /// </summary>
         /// <returns>
-        /// <response code="201">Include successfully</response>
+        /// <response code="200">Successful operation</response>
         /// <response code="500">Server side found a error</response>
         /// </returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post(SuperHero input)
         {
-            _herous.Add(input);
-            return Created($"/{input.Id}info", input);
+            _context.SuperHeroes.Add(input);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.SuperHeroes.ToListAsync());
         }
 
         /// <summary>
@@ -85,7 +88,7 @@ namespace Web.API.Controllers
         {
             if (input is null) return BadRequest();
 
-            var hero = _herous.Find(x => x.Id == input.Id);
+            var hero = await _context.SuperHeroes.FindAsync(input.Id);
 
             if (hero is null) return BadRequest();
 
@@ -93,6 +96,10 @@ namespace Web.API.Controllers
             hero.FirstName = input.FirstName;
             hero.LastName = input.LastName;
             hero.Place = input.Place;
+
+            _context.SuperHeroes.Update(hero);
+
+            await _context.SaveChangesAsync();
 
             return Ok(hero);
         }
@@ -111,11 +118,13 @@ namespace Web.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(int id)
         {
-            var hero = _herous.Find(x => x.Id == id);
+            var hero = await _context.SuperHeroes.FindAsync(id);
 
             if (hero is null) return BadRequest();
 
-            _herous.Remove(hero);
+            _context.SuperHeroes.Remove(hero);
+
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
