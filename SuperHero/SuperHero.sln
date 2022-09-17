@@ -3,7 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.API", "Web.API\Web.API.csproj", "{9C3C5E5E-C2DE-4025-A7C3-5ED9A0351F14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.API", "Web.API\Web.API.csproj", "{9C3C5E5E-C2DE-4025-A7C3-5ED9A0351F14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{C0580945-AC0E-4056-9CFE-9D051F113600}"
+	ProjectSection(SolutionItems) = preProject
+		root\docker-compose.yml = root\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{88B5114F-C3FD-4A44-8DBD-B4EEF89DA280}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bd", "bd", "{50BCCE88-A58B-4D20-A7FF-2D70F0D21965}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +27,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{50BCCE88-A58B-4D20-A7FF-2D70F0D21965} = {88B5114F-C3FD-4A44-8DBD-B4EEF89DA280}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4041D2BD-D655-4AFB-8E87-DD9E71B4A946}
