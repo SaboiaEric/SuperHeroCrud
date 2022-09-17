@@ -57,16 +57,44 @@ namespace Web.API.Controllers
         /// Create a super hero
         /// </summary>
         /// <returns>
-        /// <response code="201">Include successfully</response>        
+        /// <response code="201">Include successfully</response>
         /// <response code="500">Server side found a error</response>
         /// </returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(SuperHero hero)
+        public async Task<IActionResult> Post(SuperHero input)
         {
-            _herous.Add(hero);
-            return Created($"/{hero.Id}info", hero);
+            _herous.Add(input);
+            return Created($"/{input.Id}info", input);
+        }
+
+        /// <summary>
+        /// Update a super hero
+        /// </summary>
+        /// <returns>
+        /// <response code="200">Successful operation</response>
+        /// <response code="404">Anomaly not found</response>
+        /// <response code="500">Server side found a error</response>
+        /// </returns>
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Put(SuperHero input)
+        {
+            if (input is null) return BadRequest();
+
+            var hero = _herous.Find(x => x.Id == input.Id);
+
+            if (hero is null) return BadRequest();
+
+            hero.Name = input.Name;
+            hero.FirstName = input.FirstName;
+            hero.LastName = input.LastName;
+            hero.Place = input.Place;
+
+            return Ok(hero);
         }
     }
 }
