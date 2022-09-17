@@ -96,5 +96,28 @@ namespace Web.API.Controllers
 
             return Ok(hero);
         }
+
+        /// <summary>
+        /// Delete a super hero
+        /// </summary>
+        /// <returns>
+        /// <response code="200">Successful operation</response>
+        /// /// <response code="404">Anomaly not found</response>
+        /// <response code="500">Server side found a error</response>
+        /// </returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var hero = _herous.Find(x => x.Id == id);
+
+            if (hero is null) return BadRequest();
+
+            _herous.Remove(hero);
+
+            return Ok();
+        }
     }
 }
